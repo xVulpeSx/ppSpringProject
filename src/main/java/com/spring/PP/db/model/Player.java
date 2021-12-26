@@ -1,10 +1,19 @@
 package com.spring.PP.db.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "players")
-public class Player {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Player{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

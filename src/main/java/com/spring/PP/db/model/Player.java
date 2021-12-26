@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 
@@ -29,4 +30,6 @@ public class Player{
     @ManyToOne
     @JoinColumn(name="manager_id", nullable = false)
     private Manager manager;
+
+    private DateTime contract;
 }

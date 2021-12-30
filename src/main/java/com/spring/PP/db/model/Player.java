@@ -1,9 +1,6 @@
 package com.spring.PP.db.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -14,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Player{
+public class Player implements AbstractData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +27,4 @@ public class Player{
     @ManyToOne
     @JoinColumn(name="manager_id", nullable = false)
     private Manager manager;
-
-    private DateTime contract;
 }

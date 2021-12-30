@@ -1,11 +1,12 @@
 package com.spring.PP.db.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -14,13 +15,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Club{
+public class Club implements AbstractData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToOne
@@ -34,4 +36,10 @@ public class Club{
     @OneToMany(mappedBy = "club")
     private List<Player> team;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime creationTime;
+
+    @UpdateTimestamp
+    private LocalDateTime lastModification;
 }

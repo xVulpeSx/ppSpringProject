@@ -18,6 +18,11 @@ public abstract class GenericCRUDController <T extends AbstractData> {
 
     private final GenericCRUDService<T> service;
 
+    @ExceptionHandler({MissingEntityException.class})
+    public void handleException(){
+
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<T> getOne(@PathVariable Long id) throws MissingEntityException {
         return ResponseEntity.ok(this.service.findById(id));

@@ -42,4 +42,8 @@ public class Club implements AbstractData {
 
     @UpdateTimestamp
     private LocalDateTime lastModification;
+
+    public void addPlayer(Player player){
+        this.team.add(player);
+    }
 }

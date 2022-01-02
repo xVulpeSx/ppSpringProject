@@ -1,5 +1,6 @@
 package com.spring.PP.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,5 +23,6 @@ public class Address implements AbstractData {
     private int number;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private Club club;
 }

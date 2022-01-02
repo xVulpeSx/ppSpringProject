@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    List<Address> findAllByStreet(String street);
 }

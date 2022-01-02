@@ -30,8 +30,6 @@ public abstract class GenericCRUDService <T extends AbstractData> implements CRU
 
     @Override
     public T update(Long id, T model) throws MissingEntityException {
-        T entity = this.repository.findById(id).orElseThrow(()-> new MissingEntityException("Entity not found"));
-
         return this.repository.save(model);
     }
 

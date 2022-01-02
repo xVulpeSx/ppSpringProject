@@ -1,5 +1,6 @@
 package com.spring.PP.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.joda.time.DateTime;
 
@@ -22,9 +23,11 @@ public class Player implements AbstractData {
 
     @ManyToOne
     @JoinColumn(name = "club_id")
+    @JsonIgnore
     private Club club;
 
     @ManyToOne
     @JoinColumn(name="manager_id", nullable = false)
+    @JsonIgnore
     private Manager manager;
 }

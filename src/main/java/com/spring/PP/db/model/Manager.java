@@ -1,5 +1,6 @@
 package com.spring.PP.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,5 +21,10 @@ public class Manager implements AbstractData {
     private String name;
 
     @OneToMany(mappedBy = "manager")
+    @JsonIgnore
     private List<Player> players;
+
+    public void addPlayer(Player player){
+        this.players.add(player);
+    }
 }

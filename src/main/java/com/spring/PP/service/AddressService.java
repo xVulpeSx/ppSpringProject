@@ -25,6 +25,11 @@ public class AddressService extends  GenericCRUDService<Address> {
         Club club = null;
         if(model.getClub() != null){
             club = this.clubRepository.findById(model.getClub()).orElseThrow(()-> new MissingEntityException("Club not found."));
+            if(club.getAddress() != null){
+                Address oldAddress = club.getAddress();
+                oldAddress.setClub(null);
+                this.repository.save(oldAddress);
+            }
             entity.setClub(club);
         }
 

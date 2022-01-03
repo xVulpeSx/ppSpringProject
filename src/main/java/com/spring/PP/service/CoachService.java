@@ -10,6 +10,8 @@ import com.spring.PP.db.repo.CoachRepository;
 import com.spring.PP.exception.MissingEntityException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CoachService extends GenericCRUDService<Coach> {
     private final CoachRepository repository;
@@ -25,8 +27,14 @@ public class CoachService extends GenericCRUDService<Coach> {
     public Coach createDto(CoachDto model) throws MissingEntityException {
         Coach entity = new Coach();
         Club club = null;
+
         if(model.getClub() != null){
             club = this.clubRepository.findById(model.getClub()).orElseThrow(()-> new MissingEntityException("Club not found."));
+            if(club.getCoach() != null){
+                Coach oldCoach = club.getCoach();
+                oldCoach.setClub(null);
+                this.repository.save(oldCoach);
+            }
             entity.setClub(club);
         }
 
@@ -44,18 +52,19 @@ public class CoachService extends GenericCRUDService<Coach> {
     public Coach updateDto(Long id, CoachDto model) throws MissingEntityException {
         Coach entity = this.repository.findById(id).orElseThrow(() -> new MissingEntityException("Entity not found."));
         Club club = entity.getClub();
-        if(club!=null) {
-            if(!entity.getClub().getId().equals(model.getClub())){
-                club.setAddress(null);
+        if(club != null){
+            if(!entity.getClub().getId().equals(model.getClub()) && model.getClub() != null){
+                club.setCoach(null);
                 this.clubRepository.save(club);
-                if(model.getClub() != null){
-                    club = this.clubRepository.findById(model.getClub()).orElseThrow(() -> new MissingEntityException("Club not found"));
-                    entity.setClub(club);
-                }
+                club = this.clubRepository.findById(model.getClub()).orElseThrow(() -> new MissingEntityException("Club not found"));
+                entity.setClub(club);
             }
         }
 
-        entity.setName(model.getName());
+        if(model.getName() != null){
+
+            entity.setName(model.getName());
+        }
 
         Coach savedCoach = this.repository.save(entity);
 
@@ -64,7 +73,10 @@ public class CoachService extends GenericCRUDService<Coach> {
             this.clubRepository.save(club);
         }
 
-
         return savedCoach;
+    }
+
+    public List<Coach> findAllByName(String name){
+        return this.repository.findAllByName(name);
     }
 }

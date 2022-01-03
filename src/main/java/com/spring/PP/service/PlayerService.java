@@ -109,4 +109,8 @@ public class PlayerService extends GenericCRUDService<Player>{
 
         return savedPlayer;
     }
+
+    public List<Player> findAllByManagerId(Long managerId){
+        return this.repository.findAllByManagerId(managerId);
+    }
 }

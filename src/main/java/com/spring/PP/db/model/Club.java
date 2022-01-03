@@ -46,4 +46,8 @@ public class Club implements AbstractData {
     public void addPlayer(Player player){
         this.team.add(player);
     }
+
+    public void removePlayer(Player player){
+        this.team.remove(player);
+    }
 }

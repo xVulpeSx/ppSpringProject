@@ -88,7 +88,7 @@ public class ClubService extends GenericCRUDService<Club>{
 
         if(address != null){
             if(!address.getId().equals(model.getAddress())){
-                address.setClub(null);
+                address.setClub(null);;
                 this.addressRepository.save(address);
             }
         }
@@ -108,19 +108,39 @@ public class ClubService extends GenericCRUDService<Club>{
         Address newAddress = null;
         if(model.getAddress() != null){
             newAddress= this.addressRepository.findById(model.getAddress()).orElseThrow(()->new MissingEntityException("addresNotFound"));
+            if(newAddress.getClub() != null){
+                Club oldClub = this.repository.getById(newAddress.getClub().getId());
+                oldClub.setAddress(null);
+                this.repository.save(oldClub);
+            }
+            newAddress.setClub(entity);
             entity.setAddress(newAddress);
         }
 
         Coach newCoach = null;
         if(model.getCoach() != null){
             newCoach = this.coachRepository.findById(model.getCoach()).orElseThrow(()-> new MissingEntityException("CoachNotFound"));
+            if(newCoach.getClub() != null){
+                Club oldClub = this.repository.getById(newCoach.getClub().getId());
+                oldClub.setAddress(null);
+                this.repository.save(oldClub);
+            }
+            newCoach.setClub(entity);
             entity.setCoach(newCoach);
         }
 
         List<Player> newTeam = new ArrayList<>();
-        for(Long playerId : model.getTeam()){
-            Player player = this.playerRepository.findById(playerId).orElseThrow(()->new MissingEntityException("playerNotFound"));
-            newTeam.add(player);
+        if(model.getTeam() != null){
+            for(Long playerId : model.getTeam()){
+                Player player = this.playerRepository.findById(playerId).orElseThrow(()->new MissingEntityException("playerNotFound"));
+                if(player.getClub() != null){
+                    Club oldClub = player.getClub();
+                    oldClub.removePlayer(player);
+                    this.repository.save(oldClub);
+                }
+                player.setClub(entity);
+                newTeam.add(player);
+            }
         }
         entity.setTeam(team);
 
@@ -142,5 +162,13 @@ public class ClubService extends GenericCRUDService<Club>{
         }
 
         return savedClub;
+    }
+
+    public List<Club> findAllByName(String name){
+        return this.repository.findAllByName(name);
+    }
+
+    public Club findByAddressId(Long id){
+        return this.repository.findByAddressId(id);
     }
 }

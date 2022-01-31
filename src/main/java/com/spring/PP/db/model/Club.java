@@ -18,7 +18,7 @@ import java.util.List;
 public class Club implements AbstractData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

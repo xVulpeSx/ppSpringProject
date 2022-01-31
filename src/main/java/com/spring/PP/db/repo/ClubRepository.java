@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface ClubRepository extends JpaRepository<Club, Long> {
 
-//    @Query("SELECT c FROM CLUBS c WHERE c.name=:name")
-//    Club customQueryFindByName(@Param("name")String name);
+    @Query("SELECT c FROM Club c WHERE c.name=:name")
+    Club customQueryFindByName(@Param("name")String name);
 
     List<Club> findAllByName(String name);
     Club findByAddressId(Long id) throws MissingEntityException;
